@@ -1,12 +1,15 @@
 @font-face {
-    font-family: fontTest;
-    src: url(../fonts/Rubik-VariableFont_wght.ttf);
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    src: url("../fonts/Montserrat-Regular.ttf");
+    font-display: swap;
 }
 
 .main-content {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    font-family: "fontTest", Helvetica, sans-serif;
+    font-family: "Montserrat", Helvetica, sans-serif;
     font-size: 16px;
     background-color: #fff;
 }
@@ -40,15 +43,14 @@
 
 .product__status-label {
     position: absolute;
-    top: 10px;
-    left: 11px;
-    display: block;
-    z-index: 2;
+    top: 5px;
+    left: 5px;
     margin: 0;
     padding: 3px;
+    display: block;
     background-color: #03a9f5;
     color: #fff;
-    font-size: 14px;
+    font-size: 10px;
     z-index: 2;
 }
 
@@ -115,7 +117,7 @@
 
 .product-price {
     font-size: 12px;
-    font-weight: normal;
+    font-weight: bold;
 }
 
 .product_price_new {
@@ -133,6 +135,7 @@
     outline: none;
     border: 0;
     padding: 7px 10px;
+    font-weight: bold;
     cursor: pointer;
     -webkit-transition: all 0.4s ease-in-out;
     transition: all 0.4s ease-in-out;
@@ -262,7 +265,7 @@
         background-color: #fff;
     }
 
-    .books-item__image {
+    .product__image {
         position: absolute;
         max-width: 100%;
         display: block;
