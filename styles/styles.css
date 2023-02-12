@@ -214,18 +214,18 @@
     color: #fff;
 }
 
-.button-widget_active {
+.button-widget--active {
     color: #62a2d2;
 }
 
-.button-widget_active:hover {
+.button-widget--active:hover {
     background-color: #fff;
     cursor: pointer;
     color: #62a2d2;
     border: 2px solid #62a2d2;
 }
 
-.product__button-follow {
+.product__button-hide {
     position: absolute;
     right: 5px;
     top: 5px;
@@ -377,6 +377,14 @@
     transform: translateX(18px);
 }
 
+.product--hide {
+    display: none;
+}
+.product--hide.product--show-hidden {
+    display: block;
+    opacity: 0.5;
+}
+
 @media (min-width: 400px) {
 
     .product__status-label {
@@ -398,7 +406,7 @@
         font-size: 12px;
     }
 
-    .product__button-follow {
+    .product__button-hide {
         position: absolute;
         right: 10px;
         top: 10px;
@@ -525,7 +533,7 @@
         font-size: 16px;
     }
 
-    .product__button-follow {
+    .product__button-hide {
         position: absolute;
         right: 15px;
         top: 10px;
@@ -541,12 +549,6 @@
         position: absolute;
         right: 15px;
         top: 110px;
-    }
-
-    .product__button-follow {
-        position: absolute;
-        right: 10px;
-        top: 10px;
     }
 }
 
@@ -649,7 +651,7 @@
         font-size: 15px;
     }
 
-    .product__button-follow {
+    .product__button-hide {
         position: absolute;
         right: -50px;
         -webkit-transition: right 0.2s ease-in-out;
@@ -674,7 +676,7 @@
 
     .product__content:hover .product__button-favorite,
     .product__content:hover .product__button-compare,
-    .product__content:hover .product__button-follow {
+    .product__content:hover .product__button-hide {
         right: 15px;
     }
 
