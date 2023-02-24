@@ -1,5 +1,5 @@
 @font-face {
-    font-family: 'Montserrat';
+    font-family: "Montserrat";
     font-style: normal;
     font-weight: 400;
     src: url("../fonts/Montserrat-Regular.ttf");
@@ -179,7 +179,7 @@
     outline: 1px solid #62a2d2;
 }
 
-.product-rating {
+.stars {
     font-size: 9px;
 }
 
@@ -347,6 +347,7 @@
     background-color: #646262;
     -webkit-transition: .2s;
     transition: .2s;
+    cursor: pointer;
 }
 
 .checkbox-toggler__switcher::before {
@@ -361,10 +362,6 @@
     border-radius: 50%;
     -webkit-transition: .2s;
     transition: .2s;
-}
-
-.checkbox-toggler__input:not(:disabled)+.checkbox-toggler__switcher {
-    cursor: pointer;
 }
 
 .checkbox-toggler__input:checked+.checkbox-toggler__switcher {
@@ -385,7 +382,7 @@
     opacity: 0.5;
 }
 
-@media (min-width: 400px) {
+@media (min-width: 320px) {
 
     .product__status-label {
         font-size: 12px;
@@ -425,7 +422,7 @@
     }
 }
 
-@media (min-width: 500px) {
+@media (min-width: 481px) {
 
     .filter-container {
         padding: 0 10px;
@@ -478,7 +475,7 @@
         margin: 0 2px;
     }
 
-    .product-rating {
+    .stars {
         font-size: 10px;
     }
 
@@ -487,7 +484,7 @@
     }
 }
 
-@media (min-width: 767px) {
+@media (min-width: 769px) {
 
     .filter-container__filter-buttons-container {
         margin-top: 0;
@@ -522,33 +519,6 @@
         cursor: pointer;
         color: #62a2d2;
         border: 2px solid #62a2d2;
-    }
-}
-
-@media (min-width: 850px) {
-
-    .button-widget {
-        height: 45px;
-        width: 45px;
-        font-size: 16px;
-    }
-
-    .product__button-hide {
-        position: absolute;
-        right: 15px;
-        top: 10px;
-    }
-
-    .product__button-favorite {
-        position: absolute;
-        right: 15px;
-        top: 60px;
-    }
-
-    .product__button-compare {
-        position: absolute;
-        right: 15px;
-        top: 110px;
     }
 }
 
@@ -647,7 +617,7 @@
         margin: 0 3px;
     }
 
-    .product-rating {
+    .stars {
         font-size: 15px;
     }
 
@@ -698,4 +668,10 @@
     .products-content__list {
         padding: 0 60px 35px;
     }
+}
+
+@keyframes anime {
+    from {left: 0}
+    50% {left: 50px}
+    to {left: 100px}
 }

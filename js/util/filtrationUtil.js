@@ -1,4 +1,4 @@
-import {filtrationType as type} from '../enum/filtrationEnum.js';
+import {filtrationType as type} from '../enum/filtrationType.js';
 
 export let filtrationUtil;
 
@@ -7,58 +7,68 @@ class FiltrationUtil {
     #favouriteProducts;
     #comparedProducts;
 
+    #filtrationTypeToArrayMap;
+
     constructor() {
-        this.#hiddenProducts = localStorage.getItem('hiddenProducts') || [];
-        this.#favouriteProducts = localStorage.getItem('favoriteProducts') || [];
-        this.#comparedProducts = localStorage.getItem('comparedProducts') || [];
+        this.allProducts = Array.from(document.querySelectorAll('.product')).map(product => product.id);
+
+        this.#hiddenProducts = localStorage.getItem(type.HIDDEN) ? localStorage.getItem(type.HIDDEN).split(',') : [];
+        this.#favouriteProducts = localStorage.getItem(type.FAVOURITE) ? localStorage.getItem(type.FAVOURITE).split(',') : [];
+        this.#comparedProducts = localStorage.getItem(type.COMPARISON) ? localStorage.getItem(type.COMPARISON).split(',') : [];
+
+        this.#filtrationTypeToArrayMap = new Map();
+        this.#filtrationTypeToArrayMap.set(type.HIDDEN, this.#hiddenProducts);
+        this.#filtrationTypeToArrayMap.set(type.FAVOURITE, this.#favouriteProducts);
+        this.#filtrationTypeToArrayMap.set(type.COMPARISON, this.#comparedProducts);
     }
 
-    changeFilterState(product, removeFromFiltered, filtrationType) {
-        let filteredProducts = this.#determineFilteredProducts(filtrationType);
+    changeFilterState(productId, removeFromFiltered, filtrationType) {
+        let filteredProducts = this.#filtrationTypeToArrayMap.get(filtrationType);
         if (removeFromFiltered) {
-            let productIndex = filteredProducts.indexOf(product);
+            let productIndex = filteredProducts.indexOf(productId);
             filteredProducts.splice(productIndex, 1);
         } else {
-            filteredProducts.push(product);
+            filteredProducts.push(productId);
         }
+
+        localStorage.setItem(filtrationType, filteredProducts);
     }
 
     get hiddenProducts() {
-        return this.#hiddenProducts.map(product => product);
+        return this.#hiddenProducts.map(productId => productId);
     }
 
     get favouriteProducts() {
-        return this.#favouriteProducts.map(product => product);
+        return this.#favouriteProducts.map(productId => productId);
     }
 
     get comparedProducts() {
-        return this.#comparedProducts.map(product => product);
+        return this.#comparedProducts.map(productId => productId);
     }
 
-    isItHiddenProduct(product) {
-        return this.#hiddenProducts.includes(product);
-    }
-
-    isItFavouriteProducts(product) {
-        return this.#favouriteProducts.includes(product);
-    }
-
-    isItComparedProduct(product) {
-        return this.#comparedProducts.includes(product);
-    }
-
-    #determineFilteredProducts(filtrationType) {
+    getFilteredProductsByType(filtrationType) {
         switch (filtrationType) {
+            case type.ALL:
+                return this.allProducts;
             case type.HIDDEN:
-                return this.#hiddenProducts;
+                return this.hiddenProducts;
             case type.FAVOURITE:
-                return this.#favouriteProducts;
+                return this.favouriteProducts;
             case type.COMPARISON:
-                return this.#comparedProducts;
-            default:
-                console.warn('Unsupported filtration type:'.concat(' ').concat(filtrationType));
-                return undefined;
+                return this.comparedProducts;
         }
+    }
+
+    isItHiddenProduct(productId) {
+        return this.#hiddenProducts.includes(productId);
+    }
+
+    isItFavouriteProduct(productId) {
+        return this.#favouriteProducts.includes(productId);
+    }
+
+    isItComparedProduct(productId) {
+        return this.#comparedProducts.includes(productId);
     }
 }
 
