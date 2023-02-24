@@ -1,5 +1,5 @@
 import {filtrationUtil} from './util/filtrationUtil.js';
-import {filtrationType} from './enum/filtrationEnum.js';
+import {filtrationType} from './enum/filtrationType.js';
 
 export let filtrationSwitcher;
 
@@ -10,8 +10,11 @@ class FiltrationSwitcher {
     }
 
     changeShowHiddenCheckBox(event) {
-        filtrationUtil.hiddenProducts.forEach(product => {
-            if (this.showHiddenCheckBox.checked) {
+        let activatedFiltrationType = this.getActivatedFilterButton().dataset.filter;
+        let currentFilteredProducts = filtrationUtil.getFilteredProductsByType(activatedFiltrationType);
+        filtrationUtil.hiddenProducts.forEach(productId => {
+            let product = document.getElementById(productId);
+            if (this.showHiddenCheckBox.checked && currentFilteredProducts.includes(productId)) {
                 product.classList.add('product--show-hidden');
             } else {
                 product.classList.remove('product--show-hidden');
@@ -29,7 +32,7 @@ class FiltrationSwitcher {
             switch (button.dataset.filter) {
                 case filtrationType.ALL:
                     this.allProducts.forEach(product => {
-                        if (!filtrationUtil.isItHiddenProduct(product)) {
+                        if (!filtrationUtil.isItHiddenProduct(product.id)) {
                             product.classList.remove('product--hide');
                         } else if (this.showHiddenCheckBox.checked) {
                             product.classList.add('product--show-hidden');
@@ -37,32 +40,26 @@ class FiltrationSwitcher {
                     });
                     break;
                 case filtrationType.FAVOURITE:
-                    filtrationUtil.favouriteProducts.forEach(product => {
-                        if (!filtrationUtil.isItHiddenProduct(product)) {
+                    this.allProducts.forEach(product => {
+                        if (!filtrationUtil.isItFavouriteProducts(product.id)) {
+                            product.classList.add('product--hide');
+                            product.classList.remove('product--show-hidden');
+                        } else if (!filtrationUtil.isItHiddenProduct(product.id)) {
                             product.classList.remove('product--hide');
                         } else if (this.showHiddenCheckBox.checked) {
                             product.classList.add('product--show-hidden');
-                        }
-                    });
-                    this.allProducts.forEach(product => {
-                        if (!filtrationUtil.isItFavouriteProducts(product)) {
-                            product.classList.add('product--hide');
-                            product.classList.remove('product--show-hidden');
                         }
                     });
                     break;
                 case filtrationType.COMPARISON:
-                    filtrationUtil.comparedProducts.forEach(product => {
-                        if (!filtrationUtil.isItHiddenProduct(product)) {
+                    this.allProducts.forEach(product => {
+                        if (!filtrationUtil.isItComparedProduct(product.id)) {
+                            product.classList.add('product--hide');
+                            product.classList.remove('product--show-hidden');
+                        } else if (!filtrationUtil.isItHiddenProduct(product.id)) {
                             product.classList.remove('product--hide');
                         } else if (this.showHiddenCheckBox.checked) {
                             product.classList.add('product--show-hidden');
-                        }
-                    });
-                    this.allProducts.forEach(product => {
-                        if (!filtrationUtil.isItComparedProduct(product)) {
-                            product.classList.add('product--hide');
-                            product.classList.remove('product--show-hidden');
                         }
                     });
                     break;
