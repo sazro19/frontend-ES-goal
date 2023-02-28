@@ -12,7 +12,7 @@ class FiltrationSwitcher {
     changeShowHiddenCheckBox(event) {
         let activatedFiltrationType = this.getActivatedFilterButton().dataset.filter;
         let currentFilteredProducts = filtrationUtil.getFilteredProductsByType(activatedFiltrationType);
-        filtrationUtil.hiddenProducts.forEach(productId => {
+        filtrationUtil.getFilteredProductsByType(filtrationType.HIDDEN).forEach(productId => {
             let product = document.getElementById(productId);
             if (this.showHiddenCheckBox.checked && currentFilteredProducts.includes(productId)) {
                 product.classList.add('product--show-hidden');

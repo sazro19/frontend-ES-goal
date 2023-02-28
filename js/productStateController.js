@@ -6,36 +6,26 @@ import {DomUtil} from "./util/domUtil.js";
 export let productStateController
 
 class ProductStateController {
-    constructor() {
-    }
 
-    initWidgets() {
-        filtrationUtil.hiddenProducts.forEach(productId => {
+    initProductAndWidgetStates() {
+        filtrationUtil.getFilteredProductsByType(filtrationType.HIDDEN).forEach(productId => {
             let product = document.getElementById(productId);
             let widget = product.querySelector('.product__button-hide');
-            widget.classList.add('button-widget--active');
-            this.#changeWidgetState(widget, false, true);
+            this.#changeWidgetState(widget, true);
 
-            if (filtrationSwitcher.isShowHiddenCheckboxChecked()) {
-                product.classList.add('product--show-hidden', 'product--hide');
-            } else {
-                product.classList.remove('product--show-hidden');
-                product.classList.add('product--hide');
-            }
+            product.classList.add('product--hide');
         });
 
-        filtrationUtil.favouriteProducts.forEach(productId => {
+        filtrationUtil.getFilteredProductsByType(filtrationType.FAVOURITE).forEach(productId => {
             let product = document.getElementById(productId);
             let widget = product.querySelector('.product__button-favorite');
-            widget.classList.add('button-widget--active');
-            this.#changeWidgetState(widget, false, true);
+            this.#changeWidgetState(widget, true);
         });
 
-        filtrationUtil.comparedProducts.forEach(productId => {
+        filtrationUtil.getFilteredProductsByType(filtrationType.COMPARISON).forEach(productId => {
             let product = document.getElementById(productId);
             let widget = product.querySelector('.product__button-compare');
-            widget.classList.add('button-widget--active');
-            this.#changeWidgetState(widget, false, false);
+            this.#changeWidgetState(widget,false);
         });
     }
 
@@ -43,10 +33,10 @@ class ProductStateController {
         if (event.target.classList.contains('button-widget') || event.target.classList.contains('button-widget__icon')) {
             let widget = DomUtil.getClosest(event.target, 'button-widget');
             let product = DomUtil.getClosest(event.target, 'product');
+
             if (widget.classList.contains('product__button-hide')) {
-                let isActive = widget.classList.contains('button-widget--active');
-                filtrationUtil.changeFilterState(product.id, isActive, filtrationType.HIDDEN);
-                this.#changeWidgetState(widget, isActive, true);
+                filtrationUtil.changeFilterState(product.id, widget, filtrationType.HIDDEN);
+                this.#changeWidgetState(widget, true);
 
                 if (widget.classList.contains('button-widget--active')) {
                     if (filtrationSwitcher.isShowHiddenCheckboxChecked()) {
@@ -61,9 +51,8 @@ class ProductStateController {
             }
 
             if (widget.classList.contains('product__button-favorite')) {
-                let isActive = widget.classList.contains('button-widget--active');
-                filtrationUtil.changeFilterState(product.id, isActive, filtrationType.FAVOURITE);
-                this.#changeWidgetState(widget, isActive, true);
+                filtrationUtil.changeFilterState(product.id, widget, filtrationType.FAVOURITE);
+                this.#changeWidgetState(widget, true);
 
                 let activatedFilterButton = filtrationSwitcher.getActivatedFilterButton();
                 if (activatedFilterButton.dataset.filter === 'favourite') {
@@ -73,9 +62,8 @@ class ProductStateController {
             }
 
             if (widget.classList.contains('product__button-compare')) {
-                let isActive = widget.classList.contains('button-widget--active');
-                filtrationUtil.changeFilterState(product.id, isActive, filtrationType.COMPARISON);
-                this.#changeWidgetState(widget, isActive, false);
+                filtrationUtil.changeFilterState(product.id, widget, filtrationType.COMPARISON);
+                this.#changeWidgetState(widget, false);
 
                 let activatedFilterButton = filtrationSwitcher.getActivatedFilterButton();
                 if (activatedFilterButton.dataset.filter === 'comparison') {
@@ -86,8 +74,9 @@ class ProductStateController {
         }
     }
 
-    #changeWidgetState(widget, isActive, changeIcon) {
+    #changeWidgetState(widget, changeIcon) {
         let icon = widget.querySelector('i');
+        let isActive = widget.classList.contains('button-widget--active');
         if (isActive) {
             widget.classList.remove('button-widget--active');
             if (changeIcon) {

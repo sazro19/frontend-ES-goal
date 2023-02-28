@@ -377,6 +377,7 @@
 .product--hide {
     display: none;
 }
+
 .product--hide.product--show-hidden {
     display: block;
     opacity: 0.5;
